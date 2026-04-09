@@ -2,10 +2,10 @@ import Razorpay from "razorpay"
 import sendEmail from "../utils/sendEmail.js"
 import User from "../models/userModel.js"
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET
-})
+// const razorpay = new Razorpay({
+//   key_id: process.env.RAZORPAY_KEY_ID,
+//   key_secret: process.env.RAZORPAY_KEY_SECRET
+// })
 
 const createOrder = async (req, res) => {
 
@@ -19,7 +19,7 @@ const createOrder = async (req, res) => {
       receipt: "order_rcptid_" + Date.now()
     }
 
-    const order = await razorpay.orders.create(options)
+    // const order = await razorpay.orders.create(options)
 
     res.json(order)
 
