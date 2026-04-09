@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 5000
 connectDB()
 
 app.use(cors({
-  origin: "https://utsav-ai.vercel.app/",
+  origin: "https://utsav-ai.vercel.app",
   credentials: true
 }));
 
