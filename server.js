@@ -27,9 +27,8 @@ const PORT = process.env.PORT || 5000
 connectDB()
 
 app.use(cors({
-  origin: "*",
-  // origin: "http://localhost:5173",
-  // credentials: true
+  origin: "https://utsav-ai.vercel.app/",
+  credentials: true
 }));
 
 //Body Parser
