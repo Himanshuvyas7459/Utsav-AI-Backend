@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
       default: "attendee"
     },
 
-    // 🔥 NEW: track organizer request status
+    //  NEW: track organizer request status
     organizerRequestStatus: {
       type: String,
       enum: ["none", "pending", "approved", "rejected"],
