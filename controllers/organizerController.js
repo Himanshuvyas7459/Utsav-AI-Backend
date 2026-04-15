@@ -1,6 +1,6 @@
 import Event from "../models/eventModel.js";
 import Booking from "../models/bookingModel.js";
-import User from "../models/User.js";
+import userModel from "../models/userModel.js";
 import organizerRequest from "../models/organizerRequest.js";
 
 
@@ -26,7 +26,7 @@ export const requestOrganizer = async (req, res) => {
     }
 
     // create request
-    const request = await OrganizerRequest.create({
+    const request = await organizerRequest.create({
       user: req.user._id
     });
 
@@ -46,7 +46,7 @@ export const requestOrganizer = async (req, res) => {
 // Get all requests
 export const getAllRequests = async (req, res) => {
   try {
-    const requests = await OrganizerRequest.find()
+    const requests = await organizerRequest.find()
       .populate("user", "name email");
 
     res.json(requests);
@@ -59,7 +59,7 @@ export const getAllRequests = async (req, res) => {
 // Approve request
 export const approveRequest = async (req, res) => {
   try {
-    const request = await OrganizerRequest.findById(req.params.id);
+    const request = await organizerRequest.findById(req.params.id);
 
     if (!request) {
       return res.status(404).json({ message: "Request not found" });
@@ -69,7 +69,7 @@ export const approveRequest = async (req, res) => {
     await request.save();
 
     // update user role
-    await User.findByIdAndUpdate(request.user, {
+    await userModel.findByIdAndUpdate(request.user, {
       role: "organizer",
       organizerRequestStatus: "approved"
     });
@@ -85,7 +85,7 @@ export const approveRequest = async (req, res) => {
 // Reject request
 export const rejectRequest = async (req, res) => {
   try {
-    const request = await OrganizerRequest.findById(req.params.id);
+    const request = await organizerRequest.findById(req.params.id);
 
     if (!request) {
       return res.status(404).json({ message: "Request not found" });
@@ -108,7 +108,7 @@ export const rejectRequest = async (req, res) => {
 
 // ================= ORGANIZER =================
 
-// Dashboard (tera existing)
+// Dashboard
 export const getOrganizerDashboard = async (req, res) => {
   try {
 
