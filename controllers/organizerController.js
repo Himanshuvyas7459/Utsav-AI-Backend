@@ -1,34 +1,36 @@
 import User from "../models/userModel.js";
+import OrganizerRequest from "../models/organizerRequestModel.js";
 
 // ================= USER =================
 
 // Request to become organizer
+
 const requestOrganizer = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const userId = req.user._id;
 
-    // already organizer
-    if (user.role === "organizer") {
+    // check already requested
+    const existing = await OrganizerRequest.findOne({ user: userId });
+
+    if (existing) {
       return res.status(400).json({
-        message: "You are already an organizer",
+        message: "You already requested",
       });
     }
 
-    // already requested
-    if (user.organizerRequestStatus === "pending") {
-      return res.status(400).json({
-        message: "Request already sent",
-      });
-    }
+    // create request
+    const request = await OrganizerRequest.create({
+      user: userId,
+      status: "pending",
+    });
 
-    user.organizerRequestStatus = "pending";
-    await user.save();
-
-    res.json({
-      message: "Organizer request sent successfully",
+    res.status(201).json({
+      message: "Request sent successfully",
+      request,
     });
 
   } catch (error) {
+    console.log("REQUEST ERROR:", error);
     res.status(500).json({
       message: error.message,
     });
